@@ -5,11 +5,8 @@ namespace MineField.Core.Services;
 
 public class GameService : IGameService
 {
-    private readonly IMineGenerator _mineGenerator;
-    private readonly IGameConfiguration _gameConfiguration;
-
     private short _moves;
-    private GridPosition _playerPosition;
+    private readonly GridPosition _playerPosition;
     private bool _gameOver = false;
 
     public GridPosition CurrentPosition => _playerPosition;
@@ -27,15 +24,9 @@ public class GameService : IGameService
     public GameService(IMineGenerator mineGenerator, IGameConfiguration gameConfiguration)
     {
         _playerPosition = new GridPosition(0, 0);
-        _mineGenerator = mineGenerator;
-        _gameConfiguration = gameConfiguration;
-        Lives = _gameConfiguration.Lives;
-        //GridDimensions = _gameConfiguration.NoOfMines;
-    }
-
-    public void Setup()
-    {
-        _mineGenerator.GenerateMines(_gameConfiguration.NoOfMines);
+        Lives = gameConfiguration.Lives;
+        GridDimensions = 8;
+        MineLocations = mineGenerator.GenerateMines(gameConfiguration.NoOfMines);
     }
 
     public bool Move(MovementDirection movementDirection)
@@ -45,7 +36,7 @@ public class GameService : IGameService
         switch (movementDirection)
         {
             case MovementDirection.Up:
-                //canMove = (_playerPosition.positionY - 1) >= 0;
+                //// canMove = (_playerPosition.positionY - 1) >= 0;
 
                 if (!HitBounds())
                 {
@@ -56,7 +47,7 @@ public class GameService : IGameService
                 break;
 
             case MovementDirection.Down:
-                //canMove = (_playerPosition.positionY + 1) <= GridDimensions;
+                //// canMove = (_playerPosition.positionY + 1) <= GridDimensions;
 
                 if (!HitBounds())
                 {
@@ -67,7 +58,7 @@ public class GameService : IGameService
                 break;
 
             case MovementDirection.Left:
-                //canMove = (_playerPosition.positionX - 1) >= 0;
+                //// canMove = (_playerPosition.positionX - 1) >= 0;
 
                 if (!HitBounds())
                 {
@@ -78,7 +69,7 @@ public class GameService : IGameService
                 break;
 
             case MovementDirection.Right:
-                //canMove = (_playerPosition.positionX + 1) <= GridDimensions;
+                //// canMove = (_playerPosition.positionX + 1) <= GridDimensions;
 
                 if (!HitBounds())
                 {
@@ -125,17 +116,19 @@ public class GameService : IGameService
     {
         var mineHit = MineLocations.Contains(_playerPosition);
 
-        // todo:- amend below to be chess ref = C2
-        Console.WriteLine($"Current position ({_playerPosition.XPosition}, {_playerPosition.YPosition}) - Lives {Lives} - Moves {Moves}");
+        // todo:- raise event to update console?
+        Console.WriteLine($"Current position ({_playerPosition.ChessBoardNotation}) - Lives {Lives} - Moves {Moves}");
 
         if (mineHit)
         {
             LoseLife();
+            return;
         }
 
         if (HasReachedEnd())
         {
             var livesText = Lives > 1 ? "lives" : "life";
+            // todo:- raise event to update console?
             Console.WriteLine($"Congratulations you reached the end of the grid in {Moves} moves! You had {Lives} {livesText} left.");
             _gameOver = true;
             return;
@@ -151,11 +144,13 @@ public class GameService : IGameService
         if (Lives <= 0)
         {
             _gameOver = true;
+            // todo:- raise event to update console?
             Console.WriteLine(message);
             Console.WriteLine("GAME OVER!");
         }
         else
         {
+            // todo:- raise event to update console?
             Console.WriteLine($"{message} Remaining lives:{Lives}");
         }
     }

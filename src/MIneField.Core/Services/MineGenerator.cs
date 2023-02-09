@@ -9,16 +9,15 @@ public class MineGenerator : IMineGenerator
     {
         List<GridPosition> mines = new();
 
-        //noOfMines
-        for (int i = 0; i < noOfMines; i++)
+        for (var i = 0; i < noOfMines; i++)
         {
             GridPosition gridPosition;
             do
             {
-                Random random = new Random();
-                int xPosition = random.Next(8);
-                int yPosition = random.Next(8);
-                gridPosition = new GridPosition(xPosition + 1, yPosition + 1); //Zero based Random
+                Random random = new ();
+                var xPosition = random.Next(8);
+                var yPosition = random.Next(8);
+                gridPosition = new GridPosition(xPosition + 1, yPosition + 1); // Convert Zero based Random to 1 based !
             } while (mines.Contains(gridPosition));
 
             mines.Add(gridPosition);
