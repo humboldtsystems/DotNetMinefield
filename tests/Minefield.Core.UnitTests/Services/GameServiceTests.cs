@@ -1,7 +1,9 @@
-﻿namespace Minefield.Core.UnitTests.Services;
+﻿using Minefield.Core.UnitTests.Common;
+
+namespace Minefield.Core.UnitTests.Services;
 
 [TestFixture]
-public class GameServiceTests
+internal sealed class GameServiceTests : TestBase
 {
     //// board dimension hard coded to GridDimensions = 8;
 
@@ -20,4 +22,5 @@ public class GameServiceTests
     //// create hard coded IGameConfiguration through a fixture
 
     // TODO:- hit 3 mines, check GameService.Lives && GameService.LoseLife returns dead / game over
+    // can use MineGenerator.PlaceMine() to put mines in easier to test locations !!!
 }

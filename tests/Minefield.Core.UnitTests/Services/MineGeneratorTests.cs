@@ -1,9 +1,11 @@
+using MineField.Core.Entities;
+using Minefield.Core.UnitTests.Common;
 using MineField.Core.Services;
 using Shouldly;
 
 namespace Minefield.Core.UnitTests.Services;
 
-public class Tests
+internal sealed class MineGeneratorTests : TestBase
 {
     [SetUp]
     public void Setup()
@@ -21,6 +23,27 @@ public class Tests
 
         // assert
         minePositions.Count.ShouldBe(10);
-        
+        // mr:- could also test 2 mines not created in same grid position?   
+    }
+
+    // test explicit mine location
+    [Test]
+    public void PlaceMine_Success()
+    {
+        // arrange
+        var mineGenerator = new MineGenerator();
+        var mine = new GridPosition(1, 1);
+
+        // act
+         mineGenerator.PlaceMine(mine);
+
+        // assert
+        var minePositions = mineGenerator.Mines;
+        minePositions.Count.ShouldBe(1);
+
+        var minePosition = minePositions[0];
+
+        minePosition.XPosition.ShouldBe(mine.XPosition);
+        minePosition.YPosition.ShouldBe(mine.YPosition);
     }
 }
