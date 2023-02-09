@@ -8,13 +8,13 @@ public interface IGameService
 
     GridPosition CurrentPosition { get; }
 
-    short Moves { get; }
+    int Moves { get; }
 
     IList<GridPosition> MineLocations { get; set; }
 
-    short Lives { get; set; }
+    int Lives { get; set; }
 
     bool GameOver { get; }
 
-    short GridDimensions { get; set; }
+    int GridDimensions { get; set; }
 }
