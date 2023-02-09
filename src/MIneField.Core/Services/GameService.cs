@@ -43,7 +43,6 @@ public class GameService : IGameService
                         _playerPosition.YPosition--;
                         hasMoved = true;
                     }
-
                     break;
 
                 case MovementDirection.Down:
@@ -52,7 +51,6 @@ public class GameService : IGameService
                         _playerPosition.YPosition++;
                         hasMoved = true;
                     }
-
                     break;
 
                 case MovementDirection.Left:
@@ -61,7 +59,6 @@ public class GameService : IGameService
                         _playerPosition.XPosition--;
                         hasMoved = true;
                     }
-
                     break;
 
                 case MovementDirection.Right:
@@ -70,11 +67,11 @@ public class GameService : IGameService
                         _playerPosition.XPosition++;
                         hasMoved = true;
                     }
-
                     break;
             }
         }
         
+
         if (hasMoved)
         {
             _moves++;
@@ -95,7 +92,7 @@ public class GameService : IGameService
         return direction switch
         {
             MovementDirection.Up => (_playerPosition.YPosition - 1) > 0,
-            MovementDirection.Down => (_playerPosition.YPosition + 1) < GridDimensions,
+            MovementDirection.Down => (_playerPosition.YPosition + 1) <= GridDimensions,
             MovementDirection.Left => (_playerPosition.XPosition - 1) > 0,
             MovementDirection.Right => (_playerPosition.XPosition + 1) <= GridDimensions,
             _ => false
@@ -115,14 +112,8 @@ public class GameService : IGameService
             return;
         }
 
-        if (HasReachedEnd())
-        {
-            var livesText = Lives > 1 ? "lives" : "life";
-            // todo:- raise event to update console?
-            Console.WriteLine($"Congratulations you reached the end of the grid in {Moves} moves! You had {Lives} {livesText} left.");
-            _gameOver = true;
+        if(EndCheck())
             return;
-        }
     }
 
     private void LoseLife()
@@ -143,6 +134,21 @@ public class GameService : IGameService
             // todo:- raise event to update console?
             Console.WriteLine($"{message} Remaining lives:{Lives}");
         }
+    }
+
+    private bool EndCheck()
+    {
+        var endCheck = HasReachedEnd();
+
+        if (endCheck)
+        {
+            var livesText = Lives > 1 ? "lives" : "life";
+            // todo:- raise event to update console?
+            Console.WriteLine($"Congratulations you reached the end of the grid in {Moves} moves! You had {Lives} {livesText} left.");
+            _gameOver = true;
+        }
+
+        return endCheck;
     }
 
     private bool HasReachedEnd()
