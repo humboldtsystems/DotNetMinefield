@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MIneField.Core\MineField.Core.csproj" />
+    <ProjectReference Include="..\..\src\MIneField.Core\MIneField.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
