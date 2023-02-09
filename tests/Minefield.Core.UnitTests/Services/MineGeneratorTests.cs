@@ -7,10 +7,10 @@ namespace Minefield.Core.UnitTests.Services;
 
 internal sealed class MineGeneratorTests : TestBase
 {
-    [SetUp]
-    public void Setup()
-    {
-    }
+    //[SetUp]
+    //public void Setup()
+    //{
+    //}
 
     [Test]
     public void GenerateMines_Success()
