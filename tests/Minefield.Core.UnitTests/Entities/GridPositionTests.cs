@@ -1,10 +1,11 @@
-﻿using MineField.Core.Entities;
+﻿using Minefield.Core.UnitTests.Common;
+using MineField.Core.Entities;
 using Shouldly;
 
 namespace Minefield.Core.UnitTests.Entities;
 
 [TestFixture]
-public class GridPositionTests
+internal sealed class GridPositionTests : TestBase
 {
     [Test]
     public void ChessBoardNotation_A1_Position_Success()
