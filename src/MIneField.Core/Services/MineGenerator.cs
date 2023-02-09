@@ -5,10 +5,10 @@ namespace MineField.Core.Services;
 
 public class MineGenerator : IMineGenerator
 {
+    public List<GridPosition> Mines { get; } = new();
+
     public List<GridPosition> GenerateMines(int noOfMines)
     {
-        List<GridPosition> mines = new();
-
         for (var i = 0; i < noOfMines; i++)
         {
             GridPosition gridPosition;
@@ -18,11 +18,16 @@ public class MineGenerator : IMineGenerator
                 var xPosition = random.Next(8);
                 var yPosition = random.Next(8);
                 gridPosition = new GridPosition(xPosition + 1, yPosition + 1); // Convert Zero based Random to 1 based !
-            } while (mines.Contains(gridPosition));
+            } while (Mines.Contains(gridPosition));
 
-            mines.Add(gridPosition);
+            PlaceMine(gridPosition);
         }
 
-        return mines;
+        return Mines;
+    }
+
+    public void PlaceMine(GridPosition mine)
+    {
+        Mines.Add(mine);
     }
 }
