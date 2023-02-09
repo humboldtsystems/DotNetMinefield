@@ -6,7 +6,7 @@ public interface IGameService
 {
     bool Move(MovementDirection movementDirection);
 
-    void Setup(bool showMineLocations);
+    void Setup();
 
     GridPosition CurrentPosition { get; }
 

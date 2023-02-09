@@ -5,6 +5,9 @@ namespace MIneField.Core.Services;
 
 public class GameService : IGameService
 {
+    private readonly IMineGenerator _mineGenerator;
+    private readonly IGameConfiguration _gameConfiguration;
+
     private short _moves;
     private GridPosition _playerPosition;
     private bool _gameOver = false;
@@ -21,15 +24,18 @@ public class GameService : IGameService
 
     public short GridDimensions { get; set; }
 
-    public GameService()
+    public GameService(IMineGenerator mineGenerator, IGameConfiguration gameConfiguration)
     {
         _playerPosition = new GridPosition(0, 0);
-        // todo:- read config to set grid bounds && lives
+        _mineGenerator = mineGenerator;
+        _gameConfiguration = gameConfiguration;
+        Lives = _gameConfiguration.Lives;
+        //GridDimensions = _gameConfiguration.NoOfMines;
     }
 
-    public void Setup(bool showMineLocations)
+    public void Setup()
     {
-        throw new NotImplementedException();
+        _mineGenerator.GenerateMines(_gameConfiguration.NoOfMines);
     }
 
     public bool Move(MovementDirection movementDirection)

@@ -1,4 +1,6 @@
-﻿namespace MineField.Infrastructure
+﻿using MIneField.Core.Dependencies;
+
+namespace MineField.Infrastructure
 {
 
 	public sealed class GameConfiguration : IGameConfiguration
@@ -19,10 +21,5 @@
 		}
 	}
 
-    public interface IGameConfiguration
-	{
-		short Lives { get; set; }
 
-        short NoOfMines { get; set; }
-    }
 }
