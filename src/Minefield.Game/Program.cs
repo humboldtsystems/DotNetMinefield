@@ -19,12 +19,10 @@ namespace Minefield.Game
             var services = ConfigureServices();
             ServiceProvider = services.BuildServiceProvider();
 
-            Counter c = new Counter();
-            c.Add("blah");
-            c.ThresholdReached += c_InformPlayer;
+            //Counter c = new Counter();
+            //c.Add("blah");
+            //c.ThresholdReached += c_InformPlayer;
 
-
-            // Loop and read player key entries.
             while (true)
             {
                 // Intercept to prevent key display.
