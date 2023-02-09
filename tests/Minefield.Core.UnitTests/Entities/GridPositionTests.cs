@@ -1,5 +1,6 @@
 ﻿using Minefield.Core.UnitTests.Common;
 using MineField.Core.Entities;
+using MineField.Core.Services;
 using Shouldly;
 
 namespace Minefield.Core.UnitTests.Entities;
@@ -16,4 +17,21 @@ internal sealed class GridPositionTests : TestBase
         // assert
         gridPos.ChessBoardNotation.ShouldBe("A1");
     }
+
+    [Test]
+    public void Check_Equals()
+    {
+        // arrange
+        var gridPos = new GridPosition(1, 1);
+        var mineGenerator = new MineGenerator();
+        var mine = new GridPosition(1, 1);
+        mineGenerator.PlaceMine(mine);
+
+        // act
+        var hasMine = mineGenerator.Mines.Contains(gridPos);
+
+        // assert
+        hasMine.ShouldBe(true);
+    }
+
 }
