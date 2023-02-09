@@ -10,11 +10,15 @@ That we are working with a two dimensional grid / array of fixed size. This is f
 It's a fixed size so that you know in code if a user is at the outer bounds of the grid / array and cannot move any further up / down / left or right
 
 ## Requirements
-When a move is made a global move counter must be incremented
-While the game is in play we must track the players current position
-A square / panel may have a mine or not
-When a mine is hit the player lives number is decremented by one
-When the number of players lives = 0 do we do anything?
-Command Line application - no UI
-Command Line application must allow input of up, down, left, right
-Command line application must tell the player which square / panel they are currently on
+- When a move is made a global move counter must be incremented
+- While the game is in play we must track the players current position
+- A square / panel may have a mine or not
+- When a mine is hit the player lives number is decremented by one
+- When the number of players lives = 0 do we do anything?
+- Command Line application - no UI
+- Command Line application must allow input of up, down, left, right
+- Command line application must tell the player which square / panel they are currently on
+
+## Other Normal minesweeper requirements - ignored - YAGNI
+- windows minesweeper tells player how many panels away a mine is
+- no way to change number of mines or board size. Set & read from config
