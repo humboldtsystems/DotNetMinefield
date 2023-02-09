@@ -6,8 +6,6 @@ public interface IGameService
 {
     bool Move(MovementDirection movementDirection);
 
-    void Setup();
-
     GridPosition CurrentPosition { get; }
 
     short Moves { get; }

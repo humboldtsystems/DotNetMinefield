@@ -10,6 +10,9 @@ public class GridPosition
     public int XPosition { get; set; }
     public int YPosition { get; set; }
 
+    /// <summary>
+    /// Dependent on 1 based array!
+    /// </summary>
     public string ChessBoardNotation
     {
         get { return Char.ConvertFromUtf32(64 + XPosition) + YPosition.ToString(); }
