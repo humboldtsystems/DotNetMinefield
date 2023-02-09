@@ -4,16 +4,20 @@ using MIneField.Core;
 using MineField.Infrastructure;
 using MIneField.Core.Entities;
 using MIneField.Core.Services;
+using System.Reflection;
 
 namespace Minefield.Game
 {
     internal class Program
     {
+        public static IConfigurationRoot Configuration { get; set; }
+        
+        public static ServiceProvider ServiceProvider { get; set; }
 
         static void Main(string[] args)
         {
             var services = ConfigureServices();
-            var serviceProvider = services.BuildServiceProvider();
+            ServiceProvider = services.BuildServiceProvider();
 
             Counter c = new Counter();
             c.Add("blah");
@@ -50,17 +54,32 @@ namespace Minefield.Game
 
         private static IServiceCollection ConfigureServices()
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile($"appsettings.json");
+            var builder = new ConfigurationBuilder();
 
-            var config = configuration.Build();
+            builder.SetBasePath(Directory.GetCurrentDirectory());
 
-            // Setup dependency injection.
+            builder.AddJsonFile("appsettings.json", optional: false);
+
+#if DEBUG
+            {
+                try
+                {
+                    builder.AddUserSecrets(Assembly.GetExecutingAssembly(), true);
+                }
+                catch
+                {
+                    //Log.Warning("No User Secrets Id Found for the project.");
+
+                    // This exception only happens if the `UserSecretsId` property does not exist in the .csproj file.
+                }
+            }
+#endif
+
+            Configuration = builder.Build();
+            
             IServiceCollection services = new ServiceCollection();
-
-            // Register dependencies
-            services.AddInfrastructure(config);
             services.AddCore();
+            services.AddInfrastructure(Configuration);
 
             return services;
         }
