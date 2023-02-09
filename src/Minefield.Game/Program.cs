@@ -25,6 +25,10 @@ namespace Minefield.Game
 
             var gameService = ServiceProvider.GetService<IGameService>();
 
+            Console.WriteLine("Welcome");
+
+            Console.WriteLine("Select your first by pressing any arrow key");
+
             while (true)
             {
                 // Intercept to prevent key display.
@@ -84,9 +88,9 @@ namespace Minefield.Game
             return services;
         }
 
-        static void c_InformPlayer(Object sender, ThresholdReachedEventArgs e)
-        {
-            Console.WriteLine(e.Message);
-        }
+        //static void c_InformPlayer(Object sender, ThresholdReachedEventArgs e)
+        //{
+        //    Console.WriteLine(e.Message);
+        //}
     }
 }
