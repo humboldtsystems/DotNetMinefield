@@ -1,4 +1,4 @@
-﻿namespace MIneField.Core.Dependencies;
+﻿namespace MineField.Core.Dependencies;
 
 public interface IGameConfiguration
 {

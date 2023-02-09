@@ -1,35 +1,35 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MIneField.Core.Dependencies;
+using MineField.Core.Dependencies;
 
 namespace MineField.Infrastructure;
 
 public static class DependencyRegister
 {
-	public static IServiceCollection AddInfrastructure(this IServiceCollection @this,
-																	IConfigurationRoot configurationManager)
-	{
-		// Register Internal Services:
-		//@this.AddScoped<ICurrentUserService, CurrentUserService>();
+    public static IServiceCollection AddInfrastructure(this IServiceCollection @this,
+                                                                    IConfigurationRoot configurationManager)
+    {
+        // Register Internal Services:
+        //@this.AddScoped<ICurrentUserService, CurrentUserService>();
 
-		// Register Actual Services:            
-		//@this.AddSingleton<IDateTimeProvider, BasicDateTimeProvider>();
+        // Register Actual Services:            
+        //@this.AddSingleton<IDateTimeProvider, BasicDateTimeProvider>();
 
-		// Register App Settings - from appsettings.json section
-		@this.AddSingleton<IGameConfiguration>(SetConfigurationValues(configurationManager));
+        // Register App Settings - from appsettings.json section
+        @this.AddSingleton<IGameConfiguration>(SetConfigurationValues(configurationManager));
 
-		return @this;
-	}
+        return @this;
+    }
 
 
-	private static GameConfiguration SetConfigurationValues(IConfigurationRoot configurationManager)
-	{
-		GameConfiguration settings = new();
-		configurationManager.GetSection("GameConfiguration").Bind(settings);
+    private static GameConfiguration SetConfigurationValues(IConfigurationRoot configurationManager)
+    {
+        GameConfiguration settings = new();
+        configurationManager.GetSection("GameConfiguration").Bind(settings);
 
-		if (!settings.IsValid())
-			throw new ApplicationException("Settings Invalid");
+        if (!settings.IsValid())
+            throw new ApplicationException("Settings Invalid");
 
-		return settings;
-	}
+        return settings;
+    }
 }

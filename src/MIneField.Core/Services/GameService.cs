@@ -1,7 +1,7 @@
-﻿using MIneField.Core.Dependencies;
-using MIneField.Core.Entities;
+﻿using MineField.Core.Dependencies;
+using MineField.Core.Entities;
 
-namespace MIneField.Core.Services;
+namespace MineField.Core.Services;
 
 public class GameService : IGameService
 {
@@ -52,7 +52,7 @@ public class GameService : IGameService
                     _playerPosition.YPosition--;
                     hasMoved = true;
                 }
-        
+
                 break;
 
             case MovementDirection.Down:
@@ -63,7 +63,7 @@ public class GameService : IGameService
                     _playerPosition.YPosition++;
                     hasMoved = true;
                 }
-                
+
                 break;
 
             case MovementDirection.Left:
@@ -107,7 +107,7 @@ public class GameService : IGameService
     private bool HitBounds()
     {
         // far right / or bottom
-        if(CurrentPosition.XPosition++ > GridDimensions || CurrentPosition.YPosition++ > GridDimensions)
+        if (CurrentPosition.XPosition++ > GridDimensions || CurrentPosition.YPosition++ > GridDimensions)
         {
             return true;
         }

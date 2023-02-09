@@ -1,6 +1,6 @@
-﻿using MIneField.Core.Entities;
+﻿using MineField.Core.Entities;
 
-namespace MIneField.Core.Dependencies;
+namespace MineField.Core.Dependencies;
 
 public interface IGameService
 {

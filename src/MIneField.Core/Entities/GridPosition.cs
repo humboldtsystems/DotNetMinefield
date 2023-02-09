@@ -1,4 +1,4 @@
-﻿namespace MIneField.Core.Entities;
+﻿namespace MineField.Core.Entities;
 
 public class GridPosition
 {

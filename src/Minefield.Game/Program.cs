@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MIneField.Core;
 using MineField.Infrastructure;
-using MIneField.Core.Entities;
-using MIneField.Core.Services;
+using MineField.Core;
+using MineField.Core.Dependencies;
+using MineField.Core.Entities;
 using System.Reflection;
 
 namespace Minefield.Game
@@ -11,7 +11,7 @@ namespace Minefield.Game
     internal class Program
     {
         public static IConfigurationRoot Configuration { get; set; }
-        
+
         public static ServiceProvider ServiceProvider { get; set; }
 
         static void Main(string[] args)
@@ -23,6 +23,8 @@ namespace Minefield.Game
             //c.Add("blah");
             //c.ThresholdReached += c_InformPlayer;
 
+            var gameService = ServiceProvider.GetService<IGameService>();
+
             while (true)
             {
                 // Intercept to prevent key display.
@@ -32,19 +34,19 @@ namespace Minefield.Game
                 switch (key)
                 {
                     case ConsoleKey.UpArrow:
-                        GameService.Move(MovementDirection.Up);
+                        gameService!.Move(MovementDirection.Up);
                         break;
 
                     case ConsoleKey.DownArrow:
-                        GameService.Move(MovementDirection.Down);
+                        gameService!.Move(MovementDirection.Down);
                         break;
 
                     case ConsoleKey.LeftArrow:
-                        GameService.Move(MovementDirection.Left);
+                        gameService!.Move(MovementDirection.Left);
                         break;
 
                     case ConsoleKey.RightArrow:
-                        GameService.Move(MovementDirection.Right);
+                        gameService!.Move(MovementDirection.Right);
                         break;
                 }
             }
@@ -74,7 +76,7 @@ namespace Minefield.Game
 #endif
 
             Configuration = builder.Build();
-            
+
             IServiceCollection services = new ServiceCollection();
             services.AddCore();
             services.AddInfrastructure(Configuration);

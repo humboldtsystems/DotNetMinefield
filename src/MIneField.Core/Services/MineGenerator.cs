@@ -1,13 +1,13 @@
-﻿using MIneField.Core.Dependencies;
-using MIneField.Core.Entities;
+﻿using MineField.Core.Dependencies;
+using MineField.Core.Entities;
 
-namespace MIneField.Core.Services;
+namespace MineField.Core.Services;
 
 public class MineGenerator : IMineGenerator
 {
     public List<GridPosition> GenerateMines(int noOfMines)
     {
-        List<GridPosition> mines = new ();
+        List<GridPosition> mines = new();
 
         //noOfMines
         for (int i = 0; i < noOfMines; i++)
