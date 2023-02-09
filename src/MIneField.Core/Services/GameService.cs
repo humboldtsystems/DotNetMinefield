@@ -5,25 +5,25 @@ namespace MineField.Core.Services;
 
 public class GameService : IGameService
 {
-    private short _moves;
+    private int _moves;
     private readonly GridPosition _playerPosition;
     private bool _gameOver = false;
 
     public GridPosition CurrentPosition => _playerPosition;
 
-    public short Moves => _moves;
+    public int Moves => _moves;
 
     public IList<GridPosition> MineLocations { get; set; }
 
-    public short Lives { get; set; }
+    public int Lives { get; set; }
 
     public bool GameOver => _gameOver;
 
-    public short GridDimensions { get; set; }
+    public int GridDimensions { get; set; }
 
     public GameService(IMineGenerator mineGenerator, IGameConfiguration gameConfiguration)
     {
-        _playerPosition = new GridPosition(0, 0);
+        _playerPosition = new GridPosition(1, 1);
         Lives = gameConfiguration.Lives;
         GridDimensions = 8;
         MineLocations = mineGenerator.GenerateMines(gameConfiguration.NoOfMines);
@@ -33,53 +33,48 @@ public class GameService : IGameService
     {
         bool hasMoved = false;
 
-        switch (movementDirection)
+        if(!GameOver)
         {
-            case MovementDirection.Up:
-                //// canMove = (_playerPosition.positionY - 1) >= 0;
+            switch (movementDirection)
+            {
+                case MovementDirection.Up:
+                    if (CanMove(movementDirection))
+                    {
+                        _playerPosition.YPosition--;
+                        hasMoved = true;
+                    }
 
-                if (!HitBounds())
-                {
-                    _playerPosition.YPosition--;
-                    hasMoved = true;
-                }
+                    break;
 
-                break;
+                case MovementDirection.Down:
+                    if (CanMove(movementDirection))
+                    {
+                        _playerPosition.YPosition++;
+                        hasMoved = true;
+                    }
 
-            case MovementDirection.Down:
-                //// canMove = (_playerPosition.positionY + 1) <= GridDimensions;
+                    break;
 
-                if (!HitBounds())
-                {
-                    _playerPosition.YPosition++;
-                    hasMoved = true;
-                }
+                case MovementDirection.Left:
+                    if (CanMove(movementDirection))
+                    {
+                        _playerPosition.XPosition--;
+                        hasMoved = true;
+                    }
 
-                break;
+                    break;
 
-            case MovementDirection.Left:
-                //// canMove = (_playerPosition.positionX - 1) >= 0;
+                case MovementDirection.Right:
+                    if (CanMove(movementDirection))
+                    {
+                        _playerPosition.XPosition++;
+                        hasMoved = true;
+                    }
 
-                if (!HitBounds())
-                {
-                    _playerPosition.XPosition--;
-                    hasMoved = true;
-                }
-
-                break;
-
-            case MovementDirection.Right:
-                //// canMove = (_playerPosition.positionX + 1) <= GridDimensions;
-
-                if (!HitBounds())
-                {
-                    _playerPosition.XPosition++;
-                    hasMoved = true;
-                }
-
-                break;
+                    break;
+            }
         }
-
+        
         if (hasMoved)
         {
             _moves++;
@@ -90,26 +85,21 @@ public class GameService : IGameService
         else
         {
             // todo:- raise event to update console?
-            Console.WriteLine("Unable to move off grid! Current position (" + _playerPosition.XPosition + ", " + _playerPosition.YPosition + ")");
+            Console.WriteLine($"Unable to move off grid! Current position ({_playerPosition.ChessBoardNotation})");
             return false;
         }
     }
 
-    private bool HitBounds()
+    private bool CanMove(MovementDirection direction)
     {
-        // far right / or bottom
-        if (CurrentPosition.XPosition++ > GridDimensions || CurrentPosition.YPosition++ > GridDimensions)
+        return direction switch
         {
-            return true;
-        }
-
-        // todo:- check for far left or top
-        if ((_playerPosition.XPosition + 1) <= GridDimensions || (_playerPosition.YPosition + 1) <= GridDimensions)
-        {
-            return true;
-        }
-
-        return false;
+            MovementDirection.Up => (_playerPosition.YPosition - 1) > 0,
+            MovementDirection.Down => (_playerPosition.YPosition + 1) < GridDimensions,
+            MovementDirection.Left => (_playerPosition.XPosition - 1) > 0,
+            MovementDirection.Right => (_playerPosition.XPosition + 1) <= GridDimensions,
+            _ => false
+        };
     }
 
     private void CheckForWinOrLoseConditions()
