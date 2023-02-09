@@ -23,9 +23,9 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore src/MineFieldGame.sln
     - name: Build
-        run: #.\.sonar\scanner\dotnet-sonarscanner begin /k:"humboldtsystems_MineFieldGame" /o:"humboldtsystems" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build src/MineFieldGame.sln --no-restore
+      run: dotnet build src/MineFieldGame.sln --no-restore
+          #.\.sonar\scanner\dotnet-sonarscanner begin /k:"humboldtsystems_MineFieldGame" /o:"humboldtsystems" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           #.\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
     - name: Run Tests
-        run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
+      run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage"
           # reportgenerator -reports:./**/coverage.cobertura.xml -targetdir:./CoverageReport -reporttypes:SonarQube        
