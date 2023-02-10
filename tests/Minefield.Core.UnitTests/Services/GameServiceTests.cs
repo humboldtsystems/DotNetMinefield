@@ -45,7 +45,7 @@ internal sealed class GameServiceTests : TestBase
         var moveStatus = gameEngine!.Move(MovementDirection.Right);
 
         // assert
-        moveStatus.ShouldBe(true); 
+        moveStatus.ShouldBe(true);
         //gameEngine.Lives.ShouldBe(3);
         gameEngine.Moves.ShouldBe(1);
         gameEngine.CurrentPosition.XPosition.ShouldBe(2);

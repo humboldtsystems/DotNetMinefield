@@ -14,7 +14,7 @@ public class MineGenerator : IMineGenerator
             GridPosition gridPosition;
             do
             {
-                Random random = new ();
+                Random random = new();
                 var xPosition = random.Next(8);
                 var yPosition = random.Next(8);
                 gridPosition = new GridPosition(xPosition + 1, yPosition + 1); // Convert Zero based Random to 1 based !

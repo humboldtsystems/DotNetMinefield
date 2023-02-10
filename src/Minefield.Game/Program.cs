@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MineField.Infrastructure;
 using MineField.Core;
 using MineField.Core.Dependencies;
 using MineField.Core.Entities;
+using MineField.Infrastructure;
 using System.Reflection;
 
 namespace Minefield.Game
@@ -27,7 +27,7 @@ namespace Minefield.Game
 
             Console.WriteLine("Welcome");
 
-            Console.WriteLine("Select your first by pressing any arrow key");
+            Console.WriteLine("Select your first move by pressing any arrow key");
 
             while (true)
             {

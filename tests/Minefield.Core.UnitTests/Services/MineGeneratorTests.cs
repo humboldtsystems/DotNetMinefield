@@ -1,5 +1,5 @@
-using MineField.Core.Entities;
 using Minefield.Core.UnitTests.Common;
+using MineField.Core.Entities;
 using MineField.Core.Services;
 using Shouldly;
 
@@ -35,7 +35,7 @@ internal sealed class MineGeneratorTests : TestBase
         var mine = new GridPosition(1, 1);
 
         // act
-         mineGenerator.PlaceMine(mine);
+        mineGenerator.PlaceMine(mine);
 
         // assert
         var minePositions = mineGenerator.Mines;

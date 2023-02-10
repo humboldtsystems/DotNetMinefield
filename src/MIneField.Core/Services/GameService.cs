@@ -33,7 +33,7 @@ public class GameService : IGameService
     {
         bool hasMoved = false;
 
-        if(!GameOver)
+        if (!GameOver)
         {
             switch (movementDirection)
             {
@@ -70,7 +70,7 @@ public class GameService : IGameService
                     break;
             }
         }
-        
+
 
         if (hasMoved)
         {
@@ -112,7 +112,7 @@ public class GameService : IGameService
             return;
         }
 
-        if(EndCheck())
+        if (EndCheck())
             return;
     }
 
