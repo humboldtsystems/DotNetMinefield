@@ -6,91 +6,78 @@ using MineField.Core.Entities;
 using MineField.Infrastructure;
 using System.Reflection;
 
-namespace Minefield.Game
+namespace Minefield.Game;
+
+internal class Program
 {
-    internal class Program
+    public static IConfigurationRoot Configuration { get; set; }
+
+    public static ServiceProvider ServiceProvider { get; set; }
+
+    static void Main(string[] args)
     {
-        public static IConfigurationRoot Configuration { get; set; }
+        var services = ConfigureServices();
+        ServiceProvider = services.BuildServiceProvider();
 
-        public static ServiceProvider ServiceProvider { get; set; }
+        var gameService = ServiceProvider.GetService<IGameService>();
+        gameService!.InformPlayerTriggered += (obj, eventARgs) => Console.WriteLine(eventARgs.Message);
 
-        static void Main(string[] args)
+        Console.WriteLine("Welcome");
+
+        Console.WriteLine("Select your first move by pressing any arrow key");
+
+        while (!gameService.GameOver)
         {
-            var services = ConfigureServices();
-            ServiceProvider = services.BuildServiceProvider();
+            var key = Console.ReadKey(false).Key;
 
-            //Counter c = new Counter();
-            //c.Add("blah");
-            //c.ThresholdReached += c_InformPlayer;
-
-            var gameService = ServiceProvider.GetService<IGameService>();
-
-            Console.WriteLine("Welcome");
-
-            Console.WriteLine("Select your first move by pressing any arrow key");
-
-            while (true)
+            switch (key)
             {
-                // Intercept to prevent key display.
-                var key = Console.ReadKey(false).Key;
+                case ConsoleKey.UpArrow:
+                    gameService!.Move(MovementDirection.Up);
+                    break;
 
-                // Call move command when a movement arrow is pressed.
-                switch (key)
-                {
-                    case ConsoleKey.UpArrow:
-                        gameService!.Move(MovementDirection.Up);
-                        break;
+                case ConsoleKey.DownArrow:
+                    gameService!.Move(MovementDirection.Down);
+                    break;
 
-                    case ConsoleKey.DownArrow:
-                        gameService!.Move(MovementDirection.Down);
-                        break;
+                case ConsoleKey.LeftArrow:
+                    gameService!.Move(MovementDirection.Left);
+                    break;
 
-                    case ConsoleKey.LeftArrow:
-                        gameService!.Move(MovementDirection.Left);
-                        break;
-
-                    case ConsoleKey.RightArrow:
-                        gameService!.Move(MovementDirection.Right);
-                        break;
-                }
+                case ConsoleKey.RightArrow:
+                    gameService!.Move(MovementDirection.Right);
+                    break;
             }
         }
+    }
 
-        private static IServiceCollection ConfigureServices()
+    private static IServiceCollection ConfigureServices()
+    {
+        var builder = new ConfigurationBuilder();
+
+        builder.SetBasePath(Directory.GetCurrentDirectory());
+
+        builder.AddJsonFile("appsettings.json", optional: false);
+
+        #if DEBUG
         {
-            var builder = new ConfigurationBuilder();
-
-            builder.SetBasePath(Directory.GetCurrentDirectory());
-
-            builder.AddJsonFile("appsettings.json", optional: false);
-
-#if DEBUG
+            try
             {
-                try
-                {
-                    builder.AddUserSecrets(Assembly.GetExecutingAssembly(), true);
-                }
-                catch
-                {
-                    //Log.Warning("No User Secrets Id Found for the project.");
-
-                    // This exception only happens if the `UserSecretsId` property does not exist in the .csproj file.
-                }
+                builder.AddUserSecrets(Assembly.GetExecutingAssembly(), true);
             }
-#endif
-
-            Configuration = builder.Build();
-
-            IServiceCollection services = new ServiceCollection();
-            services.AddCore();
-            services.AddInfrastructure(Configuration);
-
-            return services;
+            catch
+            {
+                // This exception only happens if the `UserSecretsId` property does not exist in the .csproj file.
+            }
         }
+        #endif
 
-        //static void c_InformPlayer(Object sender, ThresholdReachedEventArgs e)
-        //{
-        //    Console.WriteLine(e.Message);
-        //}
+        Configuration = builder.Build();
+
+        IServiceCollection services = new ServiceCollection();
+        services.AddCore();
+        services.AddInfrastructure(Configuration);
+
+        return services;
     }
 }

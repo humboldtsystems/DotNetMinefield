@@ -1,4 +1,5 @@
 ﻿using MineField.Core.Entities;
+using MineField.Core.Events;
 
 namespace MineField.Core.Dependencies;
 
@@ -10,11 +11,13 @@ public interface IGameService
 
     int Moves { get; }
 
-    IList<GridPosition> MineLocations { get; set; }
+    IList<GridPosition> MineLocations { get; }
 
-    int Lives { get; set; }
+    int Lives { get; }
 
     bool GameOver { get; }
 
-    int GridDimensions { get; set; }
+    int GridDimensions { get; }
+
+    event Action<object, InformPlayerEventArgs> InformPlayerTriggered;
 }

@@ -1,5 +1,6 @@
 ﻿using MineField.Core.Dependencies;
 using MineField.Core.Entities;
+using MineField.Core.Events;
 
 namespace MineField.Core.Services;
 
@@ -13,13 +14,15 @@ public class GameService : IGameService
 
     public int Moves => _moves;
 
-    public IList<GridPosition> MineLocations { get; set; }
+    public IList<GridPosition> MineLocations { get; private set; }
 
-    public int Lives { get; set; }
+    public int Lives { get; private set; }
 
     public bool GameOver => _gameOver;
 
-    public int GridDimensions { get; set; }
+    public int GridDimensions { get; private set; }
+
+    public event Action<object, InformPlayerEventArgs> InformPlayerTriggered;
 
     public GameService(IMineGenerator mineGenerator, IGameConfiguration gameConfiguration)
     {
@@ -31,7 +34,7 @@ public class GameService : IGameService
 
     public bool Move(MovementDirection movementDirection)
     {
-        bool hasMoved = false;
+        var hasMoved = false;
 
         if (!GameOver)
         {
@@ -81,8 +84,7 @@ public class GameService : IGameService
         }
         else
         {
-            // todo:- raise event to update console?
-            Console.WriteLine($"Unable to move off grid! Current position ({_playerPosition.ChessBoardNotation})");
+            InformPlayerTriggered?.Invoke(this, new InformPlayerEventArgs { Message = $"Unable to move off grid! Current position ({_playerPosition.ChessBoardNotation})" });
             return false;
         }
     }
@@ -103,8 +105,7 @@ public class GameService : IGameService
     {
         var mineHit = MineLocations.Contains(_playerPosition);
 
-        // todo:- raise event to update console?
-        Console.WriteLine($"Current position ({_playerPosition.ChessBoardNotation}) - Lives {Lives} - Moves {Moves}");
+        InformPlayerTriggered?.Invoke(this, new InformPlayerEventArgs { Message = $"Current position ({_playerPosition.ChessBoardNotation}) - Lives {Lives} - Moves {Moves}" });
 
         if (mineHit)
         {
@@ -118,21 +119,20 @@ public class GameService : IGameService
 
     private void LoseLife()
     {
-        const string message = "BOOM you hit a mine and lost a life!";
+        const string message = "BOOM you hit a mine and lost a life!" ;
 
         Lives--;
 
         if (Lives <= 0)
         {
             _gameOver = true;
-            // todo:- raise event to update console?
-            Console.WriteLine(message);
-            Console.WriteLine("GAME OVER!");
+            var gameOverMessage = message + Environment.NewLine + "GAME OVER!";
+
+            InformPlayerTriggered?.Invoke(this, new InformPlayerEventArgs { Message = gameOverMessage });
         }
         else
         {
-            // todo:- raise event to update console?
-            Console.WriteLine($"{message} Remaining lives:{Lives}");
+            InformPlayerTriggered?.Invoke(this, new InformPlayerEventArgs { Message = $"{message} Remaining lives:{Lives}" });
         }
     }
 
@@ -143,8 +143,7 @@ public class GameService : IGameService
         if (endCheck)
         {
             var livesText = Lives > 1 ? "lives" : "life";
-            // todo:- raise event to update console?
-            Console.WriteLine($"Congratulations you reached the end of the grid in {Moves} moves! You had {Lives} {livesText} left.");
+            InformPlayerTriggered?.Invoke(this, new InformPlayerEventArgs { Message = $"Congratulations you reached the end of the grid in {Moves} moves! You had {Lives} {livesText} left." });
             _gameOver = true;
         }
 
