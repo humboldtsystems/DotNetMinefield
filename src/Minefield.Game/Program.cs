@@ -8,13 +8,13 @@ using System.Reflection;
 
 namespace Minefield.Game;
 
-internal class Program
+internal static class Program
 {
     public static IConfigurationRoot Configuration { get; set; }
 
     public static ServiceProvider ServiceProvider { get; set; }
 
-    static void Main(string[] args)
+    static void Main()
     {
         var services = ConfigureServices();
         ServiceProvider = services.BuildServiceProvider();
@@ -59,7 +59,7 @@ internal class Program
 
         builder.AddJsonFile("appsettings.json", optional: false);
 
-        #if DEBUG
+#if DEBUG
         {
             try
             {
@@ -70,7 +70,7 @@ internal class Program
                 // This exception only happens if the `UserSecretsId` property does not exist in the .csproj file.
             }
         }
-        #endif
+#endif
 
         Configuration = builder.Build();
 

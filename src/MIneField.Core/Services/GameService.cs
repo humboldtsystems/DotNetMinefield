@@ -119,7 +119,7 @@ public class GameService : IGameService
 
     private void LoseLife()
     {
-        const string message = "BOOM you hit a mine and lost a life!" ;
+        const string message = "BOOM you hit a mine and lost a life!";
 
         Lives--;
 
