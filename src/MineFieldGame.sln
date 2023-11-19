@@ -16,6 +16,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other Items", "Other Items", "{F6778423-A182-4E80-916F-C5B0B8BBA019}"
 	ProjectSection(SolutionItems) = preProject
 		..\.github\workflows\dotnet.yml = ..\.github\workflows\dotnet.yml
+		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Global
