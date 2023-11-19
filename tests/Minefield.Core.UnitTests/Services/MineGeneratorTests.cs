@@ -23,7 +23,6 @@ internal sealed class MineGeneratorTests : TestBase
 
         // assert
         minePositions.Count.ShouldBe(10);
-        // mr:- could also test 2 mines not created in same grid position?   
     }
 
     // test explicit mine location
@@ -46,4 +45,6 @@ internal sealed class MineGeneratorTests : TestBase
         minePosition.XPosition.ShouldBe(mine.XPosition);
         minePosition.YPosition.ShouldBe(mine.YPosition);
     }
+    
+    // TODO mr:- could also test 2 mines not created in same grid position?  
 }
